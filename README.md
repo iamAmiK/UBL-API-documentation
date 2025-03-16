@@ -10,7 +10,7 @@ For the testing deployment, **once the cold start has passed the API will be ful
 
 - Testing Deployment: https://guard-ubl-api.onrender.com
 - Production Deployments: Contact @ z5480896@ad.unsw.edu.au
-**- Note: Both testing and production deployments have the exact same functions, routes and databases.**
+- **Note: Both testing and production deployments have the exact same functions, routes and databases.**
 
 ## Features
 
