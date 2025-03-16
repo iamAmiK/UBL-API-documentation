@@ -20,4 +20,4 @@ For the testing deployment, **once the cold start has passed the API will be ful
 4. Invoice XML to PDF: Allow users to covert there stored invoices into pdf's and download straight away.
 5. Invoice Translation: Inputted Invoice XML's will be coverted to target language but all stringent business logic and numerals will remain in English.
 6. CRUD Operations: Delete invoices, list users under admin, list invoices under user.
-7. To be added: Email service.
+7. Email Service: Send stored invoice or invoices to email with custom content and sent in both pdf and xml format.
