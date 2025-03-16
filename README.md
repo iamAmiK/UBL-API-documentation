@@ -4,9 +4,13 @@ Welcome to Guard's repository.
 
 ## Deployment
 
-We have three deployments, two for production and one for testing. Of our production deployments, they both have NO cold starts. Our testing deployment has a severe cold start (20 sec) but every query after that is immediate. 
+We have **three deployments**, **two for production** and **one for testing**. Of our **production deployments**, they both have **NO cold starts**. Our **testing deployment** has a **cold start (20 - 60 sec)** but every query after that is immediate. 
 
-As all deployments, once the cold start has passed the API will be fully accessible with speed. Please use our Testing deployment and if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to both Production deployments.
+For the testing deployment, **once the cold start has passed the API will be fully accessible with speed**. Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to both Production deployments.**
+
+Testing Deployment: https://guard-ubl-api.onrender.com
+Production Deployments: Contact @ z5480896@ad.unsw.edu.au
+**Note: Both testing and production deployments have the exact same functions, routes and databases.**
 
 ## Features
 
