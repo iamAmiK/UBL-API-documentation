@@ -6,6 +6,9 @@ If you're a group deciding whether to use our API, you should! We have multiple 
 
 ## Important Notes
 No Password Required: This API uses API key authentication, not username/password authentication. Users are identified by their email address and associated with an API key.
+
+So to start using this api for testing, use the generate route and save the apikey and email (admin email) associated with it. New users are made by simply using the apikey and putting there own email, no need to generate as they are automatically place under admin as users. 
+
 Automatic Creation: Users are created automatically when they access an endpoint with a valid API key and a new email address. There's no explicit "create user" endpoint.
 User Association: All users created this way will be associated with the API key used in the request.
 Multiple Users per API Key: You can have multiple users associated with a single API key.
