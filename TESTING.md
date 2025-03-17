@@ -2,22 +2,7 @@
 
 This document provides comprehensive information about the testing framework for the UBL Invoice Generation and Validation API.
 
-## Testing Architecture
-
-The testing framework is organized into three main categories:
-
-1. **Unit Tests**: Test individual functions and components in isolation
-2. **Integration Tests**: Test API endpoints and database interactions
-3. **Validation Tests**: Test UBL document validation against schemas
-
-## Test Configuration
-
-The testing framework uses Jest with TypeScript support (ts-jest). Configuration is defined in `jest.config.js` with the following key features:
-
-- TypeScript support via ts-jest
-- Environment setup via `tests/setup.ts`
-- Coverage reporting
-- Global timeout of 30 seconds
+If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin, List invoices under users, Delete invoice, Email pdf and xml versions of invoice or multiple invoices, translate invoice.
 
 ## Important Notes
 No Password Required: This API uses API key authentication, not username/password authentication. Users are identified by their email address and associated with an API key.
