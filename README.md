@@ -4,6 +4,8 @@ Welcome to Guard's repository.
 
 ## Deployment
 
+If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin, List invoices under users, Delete invoice, Email pdf and xml versions of invoice or multiple invoices, translate invoice.
+
 We have **three deployments**, **two for production** and **one for testing**. Of our **production deployments**, they both have **NO cold starts**. Our **testing deployment** has a **cold start (20 - 60 sec)** but every query after that is immediate. 
 
 For the testing deployment, **once the cold start has passed the API will be fully accessible with speed**. Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to both Production deployments.**
