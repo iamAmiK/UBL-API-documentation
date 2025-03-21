@@ -28,7 +28,7 @@ tags:
   - name: Health
     description: Health Check Endpoints
 paths:
-  /health:
+  /api/healthcheck:
     get:
       summary: Health check
       description: Check if the API is up and running
