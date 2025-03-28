@@ -232,29 +232,3 @@ Body:
   "recipient_email": "test@example.com",
   "custom_message": "Here are your invoices for this month, you better pay me."
 }
-## Running Test Commands
-
-The following npm scripts are available for running tests:
-
-# Run all tests
-npm test
-
-# Run unit tests only
-npm run test:unit
-
-# Run integration tests only
-npm run test:integration
-
-# Run validation tests only
-npm run test:validation
-
-## Test Coverage
-npm run test:coverage
-
-## Continuous Integration
-
-The testing framework is designed to be run in a CI/CD pipeline. Tests should be run:
-
-- Before merging pull requests
-- After deployment to staging
-- Before deployment to production
