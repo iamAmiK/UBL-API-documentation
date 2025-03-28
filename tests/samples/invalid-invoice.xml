@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2"
+         xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+         xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <!-- Missing required UBLVersionID -->
+    <cbc:ID>INV-12345</cbc:ID>
+    <cbc:IssueDate>2023-12-01</cbc:IssueDate>
+    <!-- Missing DueDate -->
+    <!-- Missing InvoiceTypeCode -->
+    <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>
+    <!-- Missing OrderReference -->
+    <!-- Missing AccountingSupplierParty -->
+    <cac:AccountingCustomerParty>
+        <cac:Party>
+            <cac:PartyName>
+                <cbc:Name>Acme Corporation</cbc:Name>
+            </cac:PartyName>
+            <!-- Missing PartyTaxScheme -->
+        </cac:Party>
+    </cac:AccountingCustomerParty>
+    <!-- Missing TaxTotal -->
+    <cac:LegalMonetaryTotal>
+        <!-- Missing LineExtensionAmount -->
+        <cbc:TaxExclusiveAmount currencyID="USD">1500.00</cbc:TaxExclusiveAmount>
+        <cbc:TaxInclusiveAmount currencyID="USD">1650.00</cbc:TaxInclusiveAmount>
+        <cbc:PayableAmount currencyID="USD">1650.00</cbc:PayableAmount>
+    </cac:LegalMonetaryTotal>
+    <!-- Missing InvoiceLine -->
+</Invoice> 
