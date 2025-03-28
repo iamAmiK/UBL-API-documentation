@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PurchaseOrder>
+  <!-- Wrong root element name (should be "Order") -->
+  <cbc:ID>INVALID-12345</cbc:ID>
+  <!-- Missing IssueDate -->
+  <!-- Missing BuyerCustomerParty completely -->
+  <cac:SellerSupplierParty>
+    <cac:Party>
+      <!-- Missing PartyName -->
+      <cac:PartyTaxScheme>
+        <cbc:CompanyID>US987654321</cbc:CompanyID>
+        <cac:TaxScheme>
+          <cbc:ID>VAT</cbc:ID>
+        </cac:TaxScheme>
+      </cac:PartyTaxScheme>
+    </cac:Party>
+  </cac:SellerSupplierParty>
+  <cac:OrderLine>
+    <cbc:ID>1</cbc:ID>
+    <cac:LineItem>
+      <!-- Missing Quantity -->
+      <cbc:LineExtensionAmount currencyID="USD">1000.00</cbc:LineExtensionAmount>
+      <cac:Item>
+        <cbc:Description>Laptop Computer</cbc:Description>
+        <cbc:Name>Laptop Model X</cbc:Name>
+      </cac:Item>
+      <!-- Missing Price element -->
+    </cac:LineItem>
+  </cac:OrderLine>
+</PurchaseOrder>
