@@ -17,6 +17,15 @@ Multiple Users per API Key: You can have multiple users associated with a single
 Different Data Access: Each user will have their own set of invoices. When you authenticate with a specific user's email, you'll only see invoices created by that user.
 
 ## POSTMAN API TESTING INSTRUCTIONS
+You need to replace the local host part with the render link. I'll send you another deployment of ours that is a little faster to use as well. If you like our API then I can send you the AWS link!
+
+Render link (you need to await around 40 sec for this to load, just keep refreshing): https://guard-ubl-api.onrender.com/ 
+If you made it here, then here is another deployment link (kind of fast):
+https://iamamik710-bvpzkbif.leapcell.dev/
+
+How to test on Postman:
+Check images for how to put link etc:
+
 Postman testing instructions:
 http://localhost:3000/api/healthcheck GET
 Response:
