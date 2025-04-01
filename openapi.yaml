@@ -21,7 +21,7 @@ paths:
   /:
     get:
       tags:
-        - default
+        - Default Routes
       summary: Fetch API
       description: Check if API exists
       responses:
@@ -32,7 +32,7 @@ paths:
   /api/healthcheck:
     get:
       tags:
-        - default
+        - Default Routes
       summary: Health Check for API and database
       responses:
         '200':
@@ -42,7 +42,7 @@ paths:
   /api/keys/generate:
     post:
       tags:
-        - default
+        - API Key Routes
       summary: Generate API Key
       requestBody:
         content:
@@ -66,7 +66,7 @@ paths:
   /api/keys/details:
     get:
       tags:
-        - default
+        - API Key Routes
       summary: Add user under Admin API email
       parameters:
         - name: x-api-key
@@ -89,7 +89,7 @@ paths:
   /api/invoices/generate:
     post:
       tags:
-        - default
+        - Invoice Routes
       summary: Create new Invoice
       requestBody:
         content:
@@ -200,7 +200,7 @@ paths:
   /api/invoices/validate:
     post:
       tags:
-        - default
+        - Invoice Routes
       summary: Test Invoice Validation
       requestBody:
         content:
@@ -258,7 +258,7 @@ paths:
   /api/invoices:
     get:
       tags:
-        - default
+        - Invoice Routes
       summary: Get all invoices for a user
       parameters:
         - name: x-api-key
@@ -279,7 +279,7 @@ paths:
   /api/invoices/{id}:
     get:
       tags:
-        - default
+        - Invoice Routes
       summary: Fetch Specific Invoice
       parameters:
         - name: id
@@ -305,7 +305,7 @@ paths:
             application/json: {}
     delete:
       tags:
-        - default
+        - Invoice Routes
       summary: Delete Invoice
       parameters:
         - name: id
@@ -332,7 +332,7 @@ paths:
   /api/invoices/{id}/pdf:
     get:
       tags:
-        - default
+        - Invoice Routes
       summary: Create PDF from Invoice
       parameters:
         - name: id
@@ -359,7 +359,7 @@ paths:
   /api/invoices/{id}/translate:
     post:
       tags:
-        - default
+        - Invoice Routes
       summary: Translate Invoice
       parameters:
         - name: id
@@ -398,7 +398,7 @@ paths:
   /api/invoices/{id}/email:
     post:
       tags:
-        - default
+        - Invoice Routes
       summary: Send Single Invoice via Email
       parameters:
         - name: id
@@ -438,7 +438,7 @@ paths:
   /api/invoices/email/batch:
     post:
       tags:
-        - default
+        - Invoice Routes
       summary: Send Multiple Invoices via Email
       parameters:
         - name: x-api-key
@@ -475,7 +475,7 @@ paths:
   /api/invoices/fetch/invoices:
     get:
       tags:
-        - default
+        - Invoice Routes v2
       summary: >-
         V2: Fetch invoices from user with filtering
       parameters:
@@ -517,7 +517,7 @@ paths:
   /api/invoices/{id}/pdf/v2:
     get:
       tags:
-        - default
+        - Invoice Routes v2
       summary: 'V2: Create PDF from Translated Invoice'
       parameters:
         - name: id
@@ -544,7 +544,7 @@ paths:
   /api/invoices/user/invoices:
     delete:
       tags:
-        - default
+        - Invoice Routes v2
       summary: 'V2: Batch delete all invoices from user'
       parameters:
         - name: x-api-key
