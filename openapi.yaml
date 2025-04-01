@@ -1,757 +1,564 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: Swagger Invoice
+  title: M13A_Guard UBL Invoice Generation and Validation
   description: >-
-    The Invoice API enables businesses to generate, manage, validate, and track
-    invoices efficiently. This page outlines the API routes, CRUD operations,
-    parameters and expected responses.
-  termsOfService: http://swagger.io/terms/
-  contact:
-    email: apiteam@swagger.io
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.11
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
+    **3 new V2 routes added! In total 16 features!!!**
+
+
+    **Features include invoice generation, validation, PDF generation, invoice translation, CRUD operations, batch operations and email functionality.**
+
+
+    Link:
+    [https://github.com/iamAmiK/UBL-API-documentation?tab=readme-ov-file](https://github.com/iamAmiK/UBL-API-documentation?tab=readme-ov-file)
+
+
+    If you want more information or **want to use our AWS deployment**, contact me (Amitabh K)
+    @[z5480896@ad.unsw.edu.au](https://mailto:z5480896@ad.unsw.edu.au)
+  version: 2.1.0
 servers:
-  - url: https://petstore3.swagger.io/api/v3
-tags:
-  - name: Invoices
-    description: Invoice API Endpoints
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
-  - name: API Keys
-    description: API Key Management Endpoints
-  - name: Health
-    description: Health Check Endpoints
+  - url: https://iamamik710-bvpzkbif.leapcell.dev
 paths:
+  /:
+    get:
+      tags:
+        - default
+      summary: Fetch API
+      description: Check if API exists
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
   /api/healthcheck:
     get:
-      summary: Health check
-      description: Check if the API is up and running
       tags:
-        - Health
+        - default
+      summary: Health Check for API and database
       responses:
         '200':
-          description: API is healthy
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: ok
-                  version:
-                    type: string
-                    example: 1.0.11
-                  timestamp:
-                    type: string
-                    format: date-time
-                    example: '2025-03-15T12:00:00Z'
-        '500':
-          description: API is not healthy
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
-                    example: error
-                  message:
-                    type: string
-                    example: Service unavailable
-  
-  /api-keys/generate:
+            application/json: {}
+  /api/keys/generate:
     post:
-      summary: Generate a new API key
-      description: Create a new API key for authentication
       tags:
-        - API Keys
+        - default
+      summary: Generate API Key
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               type: object
-              properties:
-                name:
-                  type: string
-                  description: Name to identify this API key
-                  example: Production API Key
-                expiresIn:
-                  type: string
-                  description: Expiration time for the key
-                  example: 30d
-      responses:
-        '200':
-          description: API key generated successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  apiKey:
-                    type: string
-                    example: sk_test_123456abcdef
-                  expiresAt:
-                    type: string
-                    format: date-time
-                    example: '2025-04-15T12:00:00Z'
-        '400':
-          description: Bad Request - Invalid parameters
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Invalid parameters
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Server error
-  
-  /api-keys/details:
-    get:
-      summary: Get API key details
-      description: Retrieve details about the current API key
-      tags:
-        - API Keys
-      security:
-        - ApiKeyAuth: []
-      responses:
-        '200':
-          description: API key details retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: key_123
-                  name:
-                    type: string
-                    example: Production API Key
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: '2025-03-01T12:00:00Z'
-                  expiresAt:
-                    type: string
-                    format: date-time
-                    example: '2025-04-15T12:00:00Z'
-                  lastUsed:
-                    type: string
-                    format: date-time
-                    example: '2025-03-15T12:00:00Z'
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Server error
-  
-  /invoices:
-    get:
-      summary: Get all invoices for current user
-      description: Retrieves all invoices for the authenticated user with optional filters
-      tags: 
-        - Invoices
-      security:
-        - ApiKeyAuth: []
-      parameters: 
-        - name: status
-          in: query
-          required: false
-          description: Filter invoices by status (e.g., pending, paid)
-          schema: 
-            type: string
-            example: pending
-        - name: startDate
-          in: query
-          required: false
-          description: Filter invoices created on or after this date (ISO format)
-          schema:
-            type: string
-            format: date
-            example: '2025-01-01'
-        - name: endDate
-          in: query
-          required: false
-          description: Filter invoices created on or before this date (ISO format)
-          schema:
-            type: string
-            format: date
-            example: '2025-03-15'
-      responses:
-        '200':
-          description: All invoices retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items: 
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      example: INV-001
-                    total:
-                      type: number
-                      format: float
-                      example: 160.0
-                    tax:
-                      type: number
-                      format: float
-                      example: 10.0
-                    status:
-                      type: string
-                      example: pending
-                    createdAt:
-                      type: string
-                      format: date-time
-                      example: '2025-03-01T12:00:00Z'
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Database issue
-  
-  /invoices/generate:
-    post:
-      summary: Generate invoice from XML
-      description: Create a new invoice from XML order data
-      tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/xml:
-            schema:
-              type: string
-              example: |
-                <?xml version="1.0" encoding="UTF-8"?>
-                <order>
-                  <customer>
-                    <name>XYZ Ltd</name>
-                    <address>456 Elm St</address>
-                    <contact>buyer@example.com</contact>
-                  </customer>
-                  <items>
-                    <item>
-                      <description>Product A</description>
-                      <quantity>2</quantity>
-                      <unitPrice>50.00</unitPrice>
-                    </item>
-                  </items>
-                  <tax>10.0</tax>
-                </order>
-      responses:
-        '200':
-          description: Invoice generated successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: INV-001
-                  total:
-                    type: number
-                    format: float
-                    example: 160.0
-                  status:
-                    type: string
-                    example: pending
-        '400':
-          description: Bad Request - Invalid XML format
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Invalid XML format
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Server error
-  
-  /invoices/validate:
-    post:
-      summary: Validate invoice XML
-      description: Checks if an invoice XML contains valid data
-      tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/xml:
-            schema:
-              type: string
-              example: |
-                <?xml version="1.0" encoding="UTF-8"?>
-                <invoice>
-                  <seller>
-                    <name>ABC Corp</name>
-                    <address>123 Main St</address>
-                    <contact>seller@example.com</contact>
-                  </seller>
-                  <buyer>
-                    <name>XYZ Ltd</name>
-                    <address>456 Elm St</address>
-                    <contact>buyer@example.com</contact>
-                  </buyer>
-                  <items>
-                    <item>
-                      <description>Product A</description>
-                      <quantity>2</quantity>
-                      <unitPrice>50.00</unitPrice>
-                    </item>
-                  </items>
-                  <tax>10.0</tax>
-                  <status>pending</status>
-                </invoice>
-      responses:
-        '200':
-          description: Invoice validation result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  valid:
-                    type: boolean
-                    example: true
-                  errors:
-                    type: array
-                    items:
-                      type: string
-                    example: []
-        '400':
-          description: Bad Request - Incorrect invoice format
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Incorrect invoice format
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '422':
-          description: Unprocessable Entity - Invoice failed validation
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Validation failed
-  
-  /invoices/{id}:
-    get:
-      summary: Get invoice by ID
-      description: Fetches invoice details by ID
-      tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
+              example:
+                companyName: Amitabh
+                contactEmail: putYourOwnEmail@gmail.com
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: The ID of the invoice to retrieve
-          schema:
-            type: string
-            example: INV-001
-        - name: Accept-Language
+        - name: Content-Type
           in: header
-          required: false
-          description: Preferred language for the response (e.g., en, fr, cn)
           schema:
             type: string
-            example: en
+          example: application/json
       responses:
         '200':
-          description: Invoice details retrieved successfully
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    example: INV-001
-                  seller:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                        example: ABC Corp
-                      address:
-                        type: string
-                        example: 123 Main St
-                      contact:
-                        type: string
-                        example: seller@example.com
-                  buyer:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                        example: XYZ Ltd
-                      address:
-                        type: string
-                        example: 456 Elm St
-                      contact:
-                        type: string
-                        example: buyer@example.com
-                  items:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        description:
-                          type: string
-                          example: Product A
-                        quantity:
-                          type: integer
-                          example: 2
-                        unit_price:
-                          type: number
-                          format: float
-                          example: 50.0
-                  total:
-                    type: number
-                    format: float
-                    example: 160.0
-                  tax:
-                    type: number
-                    format: float
-                    example: 10.0
-                  status:
-                    type: string
-                    example: pending
-                  createdAt:
-                    type: string
-                    format: date-time
-                    example: '2025-03-01T12:00:00Z'
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '404':
-          description: Not Found - Invoice ID does not exist
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Invoice not found
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Database issue
-    
-    delete:
-      summary: Delete an invoice
-      description: Deletes an invoice permanently by ID
-      tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The ID of the invoice to delete
-          schema:
-            type: string
-            example: INV-001
-      responses:
-        '200':
-          description: Invoice deleted successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Invoice deleted
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '404':
-          description: Not Found - Invoice does not exist
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Invoice not found
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Server error
-  
-  /invoices/{id}/pdf:
+            application/json: {}
+  /api/keys/details:
     get:
-      summary: Download invoice as PDF
-      description: Generates and returns a PDF version of the invoice
       tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
+        - default
+      summary: Add user under Admin API email
       parameters:
-        - name: id
-          in: path
-          required: true
-          description: The ID of the invoice to render as PDF
+        - name: x-api-key
+          in: header
           schema:
             type: string
-            example: INV-001
+          description: make sure api key never changes
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          description: put any email here and it gets added as user under admin email
+          example: newEmailForNewUser@gmail.com
       responses:
         '200':
-          description: PDF generated successfully
+          description: Successful response
           content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-        '401':
-          description: Unauthorized - Invalid or missing API key
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Unauthorized
-        '404':
-          description: Not Found - Invoice ID does not exist
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Invoice not found
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    example: Server error
-
-  /invoices/{id}/translate:
+            application/json: {}
+  /api/invoices/generate:
     post:
-      summary: Translate invoice content to a target language
-      description: Translates the content of an invoice to the specified target language and creates a new invoice with the translated content.
       tags:
-        - Invoices
-      security:
-        - ApiKeyAuth: []
+        - default
+      summary: Create new Invoice
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Order
+                xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Order-2\"\r\n      
+                xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\r\n      
+                xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\">\r\n   
+                <cbc:ID>PO-12345</cbc:ID>\r\n   
+                <cbc:IssueDate>2023-12-01</cbc:IssueDate>\r\n   
+                <cbc:OrderTypeCode>220</cbc:OrderTypeCode>\r\n   
+                <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>\r\n   
+                <cac:BuyerCustomerParty>\r\n        <cac:Party>\r\n           
+                <cac:PartyName>\r\n                <cbc:Name>Acme
+                Corporation</cbc:Name>\r\n           
+                </cac:PartyName>\r\n           
+                <cac:PartyTaxScheme>\r\n               
+                <cbc:CompanyID>US123456789</cbc:CompanyID>\r\n               
+                <cac:TaxScheme>\r\n                   
+                <cbc:ID>VAT</cbc:ID>\r\n               
+                </cac:TaxScheme>\r\n            </cac:PartyTaxScheme>\r\n       
+                </cac:Party>\r\n    </cac:BuyerCustomerParty>\r\n   
+                <cac:SellerSupplierParty>\r\n        <cac:Party>\r\n           
+                <cac:PartyName>\r\n                <cbc:Name>Supplier
+                Inc.</cbc:Name>\r\n            </cac:PartyName>\r\n           
+                <cac:PartyTaxScheme>\r\n               
+                <cbc:CompanyID>US987654321</cbc:CompanyID>\r\n               
+                <cac:TaxScheme>\r\n                   
+                <cbc:ID>VAT</cbc:ID>\r\n               
+                </cac:TaxScheme>\r\n            </cac:PartyTaxScheme>\r\n       
+                </cac:Party>\r\n    </cac:SellerSupplierParty>\r\n   
+                <cac:OrderLine>\r\n        <cbc:ID>1</cbc:ID>\r\n       
+                <cac:LineItem>\r\n            <cbc:ID>1</cbc:ID>\r\n           
+                <cbc:Quantity unitCode=\"EA\">10</cbc:Quantity>\r\n           
+                <cbc:LineExtensionAmount
+                currencyID=\"USD\">1000.00</cbc:LineExtensionAmount>\r\n           
+                <cac:Item>\r\n                <cbc:Description>Laptop Computer
+                Model</cbc:Description>\r\n                <cbc:Name>Laptop
+                Model X</cbc:Name>\r\n            </cac:Item>\r\n           
+                <cac:Price>\r\n                <cbc:PriceAmount
+                currencyID=\"USD\">100.00</cbc:PriceAmount>\r\n           
+                </cac:Price>\r\n            <cac:TaxTotal>\r\n               
+                <cbc:TaxAmount
+                currencyID=\"USD\">100.00</cbc:TaxAmount>\r\n               
+                <cac:TaxSubtotal>\r\n                    <cbc:TaxableAmount
+                currencyID=\"USD\">1000.00</cbc:TaxableAmount>\r\n                   
+                <cbc:TaxAmount
+                currencyID=\"USD\">100.00</cbc:TaxAmount>\r\n                   
+                <cac:TaxCategory>\r\n                       
+                <cbc:ID>S</cbc:ID>\r\n                       
+                <cbc:Percent>10</cbc:Percent>\r\n                       
+                <cac:TaxScheme>\r\n                           
+                <cbc:ID>VAT</cbc:ID>\r\n                       
+                </cac:TaxScheme>\r\n                   
+                </cac:TaxCategory>\r\n               
+                </cac:TaxSubtotal>\r\n            </cac:TaxTotal>\r\n       
+                </cac:LineItem>\r\n    </cac:OrderLine>\r\n   
+                <cac:OrderLine>\r\n        <cbc:ID>2</cbc:ID>\r\n       
+                <cac:LineItem>\r\n            <cbc:ID>2</cbc:ID>\r\n           
+                <cbc:Quantity unitCode=\"EA\">5</cbc:Quantity>\r\n           
+                <cbc:LineExtensionAmount
+                currencyID=\"USD\">500.00</cbc:LineExtensionAmount>\r\n           
+                <cac:Item>\r\n                <cbc:Description>External
+                Monitor</cbc:Description>\r\n                <cbc:Name>Monitor
+                24-inch</cbc:Name>\r\n            </cac:Item>\r\n           
+                <cac:Price>\r\n                <cbc:PriceAmount
+                currencyID=\"USD\">100.00</cbc:PriceAmount>\r\n           
+                </cac:Price>\r\n            <cac:TaxTotal>\r\n               
+                <cbc:TaxAmount
+                currencyID=\"USD\">50.00</cbc:TaxAmount>\r\n               
+                <cac:TaxSubtotal>\r\n                    <cbc:TaxableAmount
+                currencyID=\"USD\">500.00</cbc:TaxableAmount>\r\n                   
+                <cbc:TaxAmount
+                currencyID=\"USD\">50.00</cbc:TaxAmount>\r\n                   
+                <cac:TaxCategory>\r\n                       
+                <cbc:ID>S</cbc:ID>\r\n                       
+                <cbc:Percent>10</cbc:Percent>\r\n                       
+                <cac:TaxScheme>\r\n                           
+                <cbc:ID>VAT</cbc:ID>\r\n                       
+                </cac:TaxScheme>\r\n                   
+                </cac:TaxCategory>\r\n               
+                </cac:TaxSubtotal>\r\n            </cac:TaxTotal>\r\n       
+                </cac:LineItem>\r\n    </cac:OrderLine>\r\n</Order> "
+      parameters:
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: newEmailTest@gmail.com
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/xml
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/invoices/validate:
+    post:
+      tags:
+        - default
+      summary: Test Invoice Validation
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: string
+              example: >-
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<Invoice
+                xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\r\n        
+                xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\r\n        
+                xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\">\r\n   
+                <!-- Missing required UBLVersionID -->\r\n   
+                <cbc:ID>INV-12345</cbc:ID>\r\n   
+                <cbc:IssueDate>2023-12-01</cbc:IssueDate>\r\n    <!-- Missing
+                DueDate -->\r\n    <!-- Missing InvoiceTypeCode -->\r\n   
+                <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>\r\n   
+                <!-- Missing OrderReference -->\r\n    <!-- Missing
+                AccountingSupplierParty -->\r\n   
+                <cac:AccountingCustomerParty>\r\n       
+                <cac:Party>\r\n            <cac:PartyName>\r\n               
+                <cbc:Name>Acme Corporation</cbc:Name>\r\n           
+                </cac:PartyName>\r\n            <!-- Missing PartyTaxScheme
+                -->\r\n        </cac:Party>\r\n   
+                </cac:AccountingCustomerParty>\r\n    <!-- Missing TaxTotal
+                -->\r\n    <cac:LegalMonetaryTotal>\r\n        <!-- Missing
+                LineExtensionAmount -->\r\n        <cbc:TaxExclusiveAmount
+                currencyID=\"USD\">1500.00</cbc:TaxExclusiveAmount>\r\n       
+                <cbc:TaxInclusiveAmount
+                currencyID=\"USD\">1650.00</cbc:TaxInclusiveAmount>\r\n       
+                <cbc:PayableAmount
+                currencyID=\"USD\">1650.00</cbc:PayableAmount>\r\n   
+                </cac:LegalMonetaryTotal>\r\n    <!-- Missing InvoiceLine
+                -->\r\n</Invoice> "
+      parameters:
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/xml
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/invoices:
+    get:
+      tags:
+        - default
+      summary: Get all invoices for a user
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: newEmailTest@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/invoices/{id}:
+    get:
+      tags:
+        - default
+      summary: Fetch Specific Invoice
       parameters:
         - name: id
           in: path
           required: true
-          description: The ID of the invoice to translate
           schema:
             type: string
-            example: INV-001
+          example: 0398032b-99b0-475c-af21-4abdf216e065
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - default
+      summary: Delete Invoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 93710852-d259-4662-8921-c77e925f5b15
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/invoices/{id}/pdf:
+    get:
+      tags:
+        - default
+      summary: Create PDF from Invoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 0398032b-99b0-475c-af21-4abdf216e065
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/invoices/{id}/translate:
+    post:
+      tags:
+        - default
+      summary: Translate Invoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 0398032b-99b0-475c-af21-4abdf216e065
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
       requestBody:
-        required: true
-        description: The target language to translate the invoice to
         content:
           application/json:
             schema:
               type: object
-              properties:
-                target_language:
-                  type: string
-                  enum:
-                    - en
-                    - es
-                    - fr
-                    - de
-                    - it
-                    - hi
-                    - ja
-                    - zh
-                  example: es
+              example:
+                target_language: hindi
       responses:
-        '201':
-          description: Invoice translated successfully
+        '200':
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Invoice translated successfully
-                  originalInvoiceId:
-                    type: string
-                    example: INV-001
-                  translatedInvoiceId:
-                    type: string
-                    example: INV-001-es
-        '400':
-          description: Bad Request - Missing parameters or invalid format
+            application/json: {}
+  /api/invoices/{id}/email:
+    post:
+      tags:
+        - default
+      summary: Send Single Invoice via Email
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: bb844176-2181-499b-b28e-575afa5d24a0
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                recipient_email: recipient@example.com
+                custom_message: This is your invoice - please review and pay at your earliest convenience.
+      responses:
+        '200':
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Invoice ID required or Invalid target language
-        '401':
-          description: Unauthorized - Invalid or missing API key
+            application/json: {}
+  /api/invoices/email/batch:
+    post:
+      tags:
+        - default
+      summary: Send Multiple Invoices via Email
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                invoice_ids:
+                  - 67bfa520-b670-4523-8432-939dcec8875d
+                  - bb844176-2181-499b-b28e-575afa5d24a0
+                recipient_email: recipient@example.com
+                custom_message: Here are your invoices for this month.
+      responses:
+        '200':
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Authentication required
-        '404':
-          description: Not Found - Invoice not found
+            application/json: {}
+  /api/invoices/fetch/invoices:
+    get:
+      tags:
+        - default
+      summary: >-
+        V2: Fetch invoices from user with filtering
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+        - name: buyerName
+          in: query
+          schema:
+            type: string
+          example: ACME
+        - name: sellerName
+          in: query
+          schema:
+            type: string
+          example: Supplier
+        - name: issueDate
+          in: query
+          schema:
+            type: string
+          example: '2025-03-29'
+        - name: dueDate
+          in: query
+          schema:
+            type: string
+          example: '2025-04-28'
+      responses:
+        '200':
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Invoice not found
-        '500':
-          description: Internal Server Error
+            application/json: {}
+  /api/invoices/{id}/pdf/v2:
+    get:
+      tags:
+        - default
+      summary: 'V2: Create PDF from Translated Invoice'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: cefc375b-02df-46b9-80b9-cc6c248b2182
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+      responses:
+        '200':
+          description: Successful response
           content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Server error
-
-components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-Key
-      
+            application/json: {}
+  /api/invoices/user/invoices:
+    delete:
+      tags:
+        - default
+      summary: 'V2: Batch delete all invoices from user'
+      parameters:
+        - name: x-api-key
+          in: header
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          schema:
+            type: string
+          example: putYourOwnEmail@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
