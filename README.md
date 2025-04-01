@@ -23,5 +23,5 @@ Please read the text above!!!
 3. Invoice Validation: Users can input Invoice XML's which get validated for structure, logic and other requirements.
 4. Invoice XML to PDF: Allow users to covert there stored invoices into pdf's and download straight away.
 5. Invoice Translation: Inputted Invoice XML's will be coverted to target language but all stringent business logic and numerals will remain in English.
-6. CRUD Operations: Delete invoices, list users under admin, list invoices under user.
+6. CRUD Operations: Delete invoice/invoices from user, list users under admin, list invoices under user, list invoices under user with filters.
 7. Email Service: Send stored invoice or invoices to email with custom content and sent in both pdf and xml format.
