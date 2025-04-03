@@ -2,7 +2,7 @@
 
 Welcome to Guard's repository. 
 
-## Deployment (Two production links, one testing link)
+## Deployment (One production links, one testing link)
 
 If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin, List invoices under users, Delete invoice, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
 
@@ -16,7 +16,7 @@ For the testing deployment, **once the cold start has passed the API will be ful
 
 Please read the text above!!!
 
-## Features
+## Features (16 Features)
 
 1. Admin/User Creation: Create API with email, the email inputted will be the admin email and all other emails associated with that API will be users.
 2. Order Document to Invoice Generation: Inputted Order documents get validated for features and if successful users recieve an Invoice XML.
