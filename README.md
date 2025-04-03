@@ -16,7 +16,7 @@ For the testing deployment, **once the cold start has passed the API will be ful
 
 Please read the text above!!!
 
-## Features (16 Features)
+## Features (16 Features, check Swagger)
 
 1. Admin/User Creation: Create API with email, the email inputted will be the admin email and all other emails associated with that API will be users.
 2. Order Document to Invoice Generation: Inputted Order documents get validated for features and if successful users recieve an Invoice XML.
