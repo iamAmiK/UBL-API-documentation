@@ -12,7 +12,7 @@ We have **three deployments**, **two for production** and **one for testing**. O
 For the testing deployment, **once the cold start has passed the API will be fully accessible with speed**. Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to both Production deployments.**
 
 - Testing Deployment: [(https://iamamik710-bvpzkbif.leapcell.dev/)](https://iamamik710-bvpzkbif.leapcell.dev/)
-- **Production Deployments (AWS): Contact @ z5480896@ad.unsw.edu.au**
+- **Production Deployments (AWS): Contact @ z5480896@ad.unsw.edu.au** (same routes as above link just a little faster)
 
 Please read the text above!!!
 
