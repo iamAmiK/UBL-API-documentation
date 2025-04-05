@@ -2,14 +2,13 @@
 
 Welcome to Guard's repository. 
 
-## Deployment (One production links, one testing link)
+## Deployment (One production link, one testing link)
 
-If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin, List invoices under users, Delete invoice, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
+If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin with optional filtering, List invoices under users, Delete invoice/invoices, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
 
-We have **three deployments**, **two for production** and **one for testing**. Of our **production deployments**, they both have **NO cold starts** and are on AWS. Our **testing deployment** has a **cold start (20 - 60 sec)** but every query after that is immediate. **Note: Both testing and production deployments have the exact same features functions, routes and databases.** You can use our sample files for testing on Postman (put in body).
+We have **two deployments**, **one for production** and **one for testing**. Our **production deployments**, has **NO cold starts** and is on AWS. Our **testing deployment** has a **no cold start too** we just have two deployments to save our AWS credits. **Note: Both testing and production deployments have the exact same features functions, routes and databases.** You can use our links given in TestingInstructions.md or check our Swagger).
 
-
-For the testing deployment, **once the cold start has passed the API will be fully accessible with speed**. Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to both Production deployments.**
+Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to our AWS Production deployment link.**
 
 - Testing Deployment: [(https://iamamik710-bvpzkbif.leapcell.dev/)](https://iamamik710-bvpzkbif.leapcell.dev/)
 - **Production Deployments (AWS): Contact @ z5480896@ad.unsw.edu.au** (same routes as above link just a little faster)
@@ -17,6 +16,7 @@ For the testing deployment, **once the cold start has passed the API will be ful
 Please read the text above!!!
 
 Swagger: https://iamamik.github.io/UBL-API-documentation/
+
 Postman: https://amitabhk-8884800.postman.co/workspace/Amitabh-K's-Workspace~cea0c384-efd6-457d-8547-d860f4c6d6c1/collection/43573699-56f3827a-1cdc-4014-bbe3-c7c6a8169c1a?action=share&creator=43573699
 
 ## Features (16 Features, check Swagger)
