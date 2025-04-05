@@ -19,6 +19,8 @@ Swagger: https://iamamik.github.io/UBL-API-documentation/
 
 Postman: https://amitabhk-8884800.postman.co/workspace/Amitabh-K's-Workspace~cea0c384-efd6-457d-8547-d860f4c6d6c1/collection/43573699-56f3827a-1cdc-4014-bbe3-c7c6a8169c1a?action=share&creator=43573699
 
+https://documenter.getpostman.com/view/43573699/2sB2cUB3M5#c5be3b59-6814-4971-8a8a-bcc5a170635e
+
 ## Features (16 Features, check Swagger)
 
 1. Admin/User Creation: Create API with email, the email inputted will be the admin email and all other emails associated with that API will be users.
