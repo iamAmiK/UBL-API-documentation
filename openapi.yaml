@@ -2,10 +2,10 @@ openapi: 3.0.0
 info:
   title: M13A_Guard UBL Invoice Generation and Validation
   description: >-
-    **3 new V2 routes added! In total 16 features!!!**
+    **2 new V3 routes added! In total 17 features!!!**
 
 
-    **Features include invoice generation, validation, PDF generation, invoice translation, CRUD operations, batch operations and email functionality.**
+    **Features include invoice generation, validation, order validation, PDF generation, invoice translation, CRUD operations, batch operations and email functionality.**
 
 
     Link:
@@ -14,7 +14,7 @@ info:
 
     If you want more information or **want to use our AWS deployment**, contact me (Amitabh K)
     @[z5480896@ad.unsw.edu.au](https://mailto:z5480896@ad.unsw.edu.au)
-  version: 2.1.0
+  version: 3.0.0
 servers:
   - url: https://iamamik710-bvpzkbif.leapcell.dev
 paths:
@@ -565,7 +565,7 @@ paths:
   /api/invoices/upload:
     post:
       tags:
-        - Invoice Routes
+        - Invoice Routes v3
       summary: V3 - Upload and validate existing UBL invoice XML
       description: Validates an invoice XML document, parses it for relevant data, and stores it in the database. For usefulness!
       requestBody:
@@ -732,3 +732,150 @@ paths:
                   message:
                     type: string
                     example: Server error
+  /api/invoices/validate-order:
+    post:
+      tags:
+        - Invoice Routes v3
+      summary: V3 - Validate Order XML
+      description: Validates an order XML document according to UBL standards, returning detailed validation results
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              type: string
+              example: >-
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+                <Order xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Order-2\"
+                       xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"
+                       xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\">
+                    <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+                    <cbc:ID>ORD-12345</cbc:ID>
+                    <cbc:IssueDate>2025-04-12</cbc:IssueDate>
+                    <cbc:OrderTypeCode>220</cbc:OrderTypeCode>
+                    <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>
+                    
+                    <cac:BuyerCustomerParty>
+                        <cac:Party>
+                            <cac:PartyName>
+                                <cbc:Name>Acme Corporation</cbc:Name>
+                            </cac:PartyName>
+                            <cac:PartyTaxScheme>
+                                <cbc:CompanyID>US12345678</cbc:CompanyID>
+                                <cac:TaxScheme>
+                                    <cbc:ID>VAT</cbc:ID>
+                                </cac:TaxScheme>
+                            </cac:PartyTaxScheme>
+                        </cac:Party>
+                    </cac:BuyerCustomerParty>
+                    
+                    <cac:SellerSupplierParty>
+                        <cac:Party>
+                            <cac:PartyName>
+                                <cbc:Name>Supplier XYZ</cbc:Name>
+                            </cac:PartyName>
+                            <cac:PartyTaxScheme>
+                                <cbc:CompanyID>GB123456789</cbc:CompanyID>
+                                <cac:TaxScheme>
+                                    <cbc:ID>VAT</cbc:ID>
+                                </cac:TaxScheme>
+                            </cac:PartyTaxScheme>
+                        </cac:Party>
+                    </cac:SellerSupplierParty>
+                    
+                    <cac:OrderLine>
+                        <cac:LineItem>
+                            <cbc:ID>1</cbc:ID>
+                            <cbc:Quantity unitCode=\"EA\">10</cbc:Quantity>
+                            <cac:Item>
+                                <cbc:Description>Laptop Computer</cbc:Description>
+                                <cbc:Name>High Performance Laptop</cbc:Name>
+                            </cac:Item>
+                            <cac:Price>
+                                <cbc:PriceAmount currencyID=\"USD\">1200.00</cbc:PriceAmount>
+                            </cac:Price>
+                            <cac:TaxTotal>
+                                <cac:TaxSubtotal>
+                                    <cac:TaxCategory>
+                                        <cbc:Percent>10.0</cbc:Percent>
+                                    </cac:TaxCategory>
+                                </cac:TaxSubtotal>
+                            </cac:TaxTotal>
+                        </cac:LineItem>
+                    </cac:OrderLine>
+                </Order>"
+        required: true
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          required: true
+          schema:
+            type: string
+          example: your-email@example.com
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/xml
+      responses:
+        '200':
+          description: Order validation results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: true
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example: []
+                  warnings:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Missing recommended field: Note"]
+        '400':
+          description: Invalid order XML format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    example: false
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example: ["Missing required element: OrderTypeCode", "Invalid date format"]
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid API key or user email
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Internal server error
