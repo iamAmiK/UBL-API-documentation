@@ -562,3 +562,173 @@ paths:
           description: Successful response
           content:
             application/json: {}
+/api/invoices/upload:
+    post:
+      tags:
+        - Invoice Routes
+      summary: Upload and validate existing UBL invoice XML
+      description: Validates an invoice XML document, parses it for relevant data, and stores it in the database
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              type: string
+              example: >-
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+                <Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"
+                         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"
+                         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\">
+                  <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+                  <cbc:ID>INV-12345</cbc:ID>
+                  <cbc:IssueDate>2023-12-01</cbc:IssueDate>
+                  <cbc:DueDate>2023-12-31</cbc:DueDate>
+                  <cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>
+                  <cbc:DocumentCurrencyCode>USD</cbc:DocumentCurrencyCode>
+                  <cac:AccountingSupplierParty>
+                    <cac:Party>
+                      <cac:PartyName>
+                        <cbc:Name>Supplier Inc.</cbc:Name>
+                      </cac:PartyName>
+                      <cac:PartyTaxScheme>
+                        <cbc:CompanyID>US987654321</cbc:CompanyID>
+                        <cac:TaxScheme>
+                          <cbc:ID>VAT</cbc:ID>
+                        </cac:TaxScheme>
+                      </cac:PartyTaxScheme>
+                    </cac:Party>
+                  </cac:AccountingSupplierParty>
+                  <cac:AccountingCustomerParty>
+                    <cac:Party>
+                      <cac:PartyName>
+                        <cbc:Name>Acme Corporation</cbc:Name>
+                      </cac:PartyName>
+                      <cac:PartyTaxScheme>
+                        <cbc:CompanyID>US123456789</cbc:CompanyID>
+                        <cac:TaxScheme>
+                          <cbc:ID>VAT</cbc:ID>
+                        </cac:TaxScheme>
+                      </cac:PartyTaxScheme>
+                    </cac:Party>
+                  </cac:AccountingCustomerParty>
+                  <cac:LegalMonetaryTotal>
+                    <cbc:LineExtensionAmount currencyID=\"USD\">1500.00</cbc:LineExtensionAmount>
+                    <cbc:TaxExclusiveAmount currencyID=\"USD\">1500.00</cbc:TaxExclusiveAmount>
+                    <cbc:TaxInclusiveAmount currencyID=\"USD\">1650.00</cbc:TaxInclusiveAmount>
+                    <cbc:PayableAmount currencyID=\"USD\">1650.00</cbc:PayableAmount>
+                  </cac:LegalMonetaryTotal>
+                  <cac:InvoiceLine>
+                    <cbc:ID>1</cbc:ID>
+                    <cbc:InvoicedQuantity unitCode=\"EA\">10</cbc:InvoicedQuantity>
+                    <cbc:LineExtensionAmount currencyID=\"USD\">1000.00</cbc:LineExtensionAmount>
+                    <cac:Item>
+                      <cbc:Description>Laptop Computer Model</cbc:Description>
+                      <cbc:Name>Laptop Model X</cbc:Name>
+                      <cac:ClassifiedTaxCategory>
+                        <cbc:ID>S</cbc:ID>
+                        <cbc:Percent>10</cbc:Percent>
+                        <cac:TaxScheme>
+                          <cbc:ID>VAT</cbc:ID>
+                        </cac:TaxScheme>
+                      </cac:ClassifiedTaxCategory>
+                    </cac:Item>
+                    <cac:Price>
+                      <cbc:PriceAmount currencyID=\"USD\">100.00</cbc:PriceAmount>
+                    </cac:Price>
+                  </cac:InvoiceLine>
+                </Invoice>"
+        required: true
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+          example: b7d48701c71ee62b9e3d5272e23bc92bde598cdbd353bb1fb46ac6093fc1e94a
+        - name: X-User-Email
+          in: header
+          required: true
+          schema:
+            type: string
+          example: your-email@example.com
+        - name: Content-Type
+          in: header
+          required: true
+          schema:
+            type: string
+          example: application/xml
+      responses:
+        '201':
+          description: Invoice successfully uploaded and stored
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invoice uploaded successfully
+                  invoiceId:
+                    type: string
+                    example: cefc375b-02df-46b9-80b9-cc6c248b2182
+                  validation:
+                    type: object
+                    properties:
+                      valid:
+                        type: boolean
+                        example: true
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                        example: []
+                      warnings:
+                        type: array
+                        items:
+                          type: string
+                        example: ["Missing PaymentTerms (recommended)"]
+        '400':
+          description: Invalid invoice XML format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid invoice XML format
+                  validation:
+                    type: object
+                    properties:
+                      valid:
+                        type: boolean
+                        example: false
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                        example: ["Missing required field: InvoiceTypeCode", "Invalid date format"]
+                      warnings:
+                        type: array
+                        items:
+                          type: string
+                        example: []
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Authentication required
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Server error
