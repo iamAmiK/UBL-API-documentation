@@ -562,12 +562,12 @@ paths:
           description: Successful response
           content:
             application/json: {}
-/api/invoices/upload:
+  /api/invoices/upload:
     post:
       tags:
         - Invoice Routes
-      summary: Upload and validate existing UBL invoice XML
-      description: Validates an invoice XML document, parses it for relevant data, and stores it in the database
+      summary: V3 - Upload and validate existing UBL invoice XML
+      description: Validates an invoice XML document, parses it for relevant data, and stores it in the database. For usefulness!
       requestBody:
         content:
           application/xml:
