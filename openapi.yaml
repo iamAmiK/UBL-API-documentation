@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: M13A_Guard UBL Invoice Generation and Validation
+  title: UBL Invoice Generation and Validation API
   description: >-
     **2 new V3 routes added! In total 17 features!!!**
 
