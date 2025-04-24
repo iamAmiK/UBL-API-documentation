@@ -1,14 +1,14 @@
 # UBL API documentation: Invoice Generation and Validation
 
-Welcome to Guard's repository. 
+Welcome to my repository. 
 
 ## Deployment (One production link, one testing link)
 
-If you're a group deciding whether to use our API, you should! We have multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin with optional filtering, List invoices under users, Delete invoice/invoices, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
+This has multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin with optional filtering, List invoices under users, Delete invoice/invoices, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
 
-We have **two deployments**, **one for production** and **one for testing**. Our **production deployments**, has **NO cold starts** and is on AWS. Our **testing deployment** has a **no cold start too** we just have two deployments to save our AWS credits. **Note: Both testing and production deployments have the exact same features functions, routes and databases.** You can use our links given in TestingInstructions.md or check our Swagger).
+There are **two deployments**, **one for production** and **one for testing**. The **production deployments**, has **NO cold starts** and is on AWS. The **testing deployment** has a **no cold start too**, I just have two deployments to save my AWS credits. **Note: Both testing and production deployments have the exact same features functions, routes and databases.** 
 
-Please use our Testing deployment and **if you like our features, email at z5480896@ad.unsw.edu.au and we will send over links to our AWS Production deployment link.**
+Please use the Testing deployment and **if you like the features, email at z5480896@ad.unsw.edu.au and I will send over links to our AWS Production deployment link.**
 
 - Testing Deployment: [(https://iamamik710-bvpzkbif.leapcell.dev/)](https://iamamik710-bvpzkbif.leapcell.dev/)
 - **Production Deployments (AWS): Contact @ z5480896@ad.unsw.edu.au** (same routes as above link just a little faster)
