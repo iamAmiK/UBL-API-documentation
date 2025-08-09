@@ -1,4 +1,4 @@
-# UBL API documentation: Invoice Generation and Validation
+# UBL API documentation: E-Invoicing API
 
 Welcome to my repository. 
 
