@@ -11,7 +11,7 @@ There are **two deployments**, **one for production** and **one for testing**. T
 Please use the Testing deployment and **if you like the features, email at z5480896@ad.unsw.edu.au and I will send over links to our AWS Production deployment link.**
 
 - Testing Deployment: [(https://iamamik710-bvpzkbif.leapcell.dev/)](https://iamamik710-bvpzkbif.leapcell.dev/)
-- **Production Deployments (AWS): Contact @ z5480896@ad.unsw.edu.au** (same routes as above link just a little faster)
+- **Production Deployments (AWS): Contact ** (same routes as above link just a little faster)
 
 Please read the text above!!!
 
