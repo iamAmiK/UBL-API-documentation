@@ -2,7 +2,7 @@
 
 Welcome to my repository. 
 
-## Deployment (One production link, one testing link)
+## Deployment (One production link, one prototype link)
 
 This has multiple features including Order Document to Invoice Validation and Generation, Invoice Validation, Invoice Rendering to pdf, List users under admin with optional filtering, List invoices under users, Delete invoice/invoices, Email pdf and xml versions of invoice or multiple invoices, translate invoice. 
 
