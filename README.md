@@ -1,6 +1,6 @@
 # UBL API documentation: E-Invoicing API
 
-Welcome to my repository. 
+Welcome to my repository.
 
 ## Deployment (One production link, one prototype link)
 
